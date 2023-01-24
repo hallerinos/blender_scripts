@@ -19,8 +19,8 @@ def create_trajectory(dataframe):
         d0 = np.asfarray(dataframe[['x', 'y', 'z']].iloc[id+1])
         dl = np.asfarray(dataframe[['x', 'y', 'z']].iloc[id])
         b.co = Vector(d0)
-        b.handle_left = Vector(d0+0.25*(dl-d0))
-        b.handle_right  = Vector(d0-0.25*(dl-d0))
+        b.handle_left = Vector(d0+0.1*(dl-d0))
+        b.handle_right  = Vector(d0-0.1*(dl-d0))
 
     # Scale the curve while in edit mode.
     #ops.transform.resize(value=(2.0, 2.0, 3.0))
