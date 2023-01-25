@@ -6,12 +6,13 @@ import os
 sys.path.append('.')
 
 from aux.delete_scene import delete_scene
-from aux.parse_args import parse_args
-from aux.create_trajectory import create_trajectory
-from aux.create_camera import create_camera
 from aux.set_scene import set_scene
 from aux.load_hdri import load_hdri
 from aux.render_scene import render_scene
+
+from trajectory_aux.parse_args import parse_args
+from trajectory_aux.create_trajectory import create_trajectory
+from trajectory_aux.create_camera import create_camera
 
 if __name__ == "__main__":
     home = os.getenv('HOME')
