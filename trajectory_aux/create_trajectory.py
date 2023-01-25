@@ -38,10 +38,18 @@ def create_trajectory(dataframe):
     obj_data.extrude = 0.0
 
     # Depth of extrusion.
-    obj_data.bevel_depth = 0.03
+    obj_data.bevel_depth = 0.05
 
     # Smoothness of the segments on the curve.
     obj_data.resolution_u = 64
     obj_data.render_resolution_u = 64
-    
+
+    ops.object.forcefield_toggle()
+    context.object.field.shape = 'SURFACE'
+    context.object.field.strength = -60
+    context.object.field.flow = 3
+
+    # remove trajectory from render
+    # trajectory.hide_render = True
+
     return trajectory

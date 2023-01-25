@@ -10,5 +10,5 @@ def create_camera(cam_loc=(9,9,9)):
     cam.constraints["Track To"].up_axis = 'UP_Y'
     cam.data.lens = 42
     cam.data.type = 'ORTHO'
-    cam.data.ortho_scale = 6.7
+    cam.data.ortho_scale = 14.5
     context.scene.camera = context.object
