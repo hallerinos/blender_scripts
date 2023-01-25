@@ -24,3 +24,10 @@ except:
    subprocess.call([python_exe, "-m", "pip", "install", "--upgrade", "pip"])
    # install matplotlib
    subprocess.call([python_exe, "-m", "pip", "install", "matplotlib"])
+
+# install fake-bpy
+# upgrade pip
+subprocess.call([python_exe, "-m", "ensurepip"])
+subprocess.call([python_exe, "-m", "pip", "install", "--upgrade", "pip"])
+# install fake-bpy
+subprocess.call([python_exe, "-m", "pip", "install", "fake-bpy-module-latest"])
