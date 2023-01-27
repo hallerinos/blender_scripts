@@ -13,7 +13,8 @@ def create_particlesystem(pos=(0,0,0), obj=None):
     ps.settings.effector_weights.gravity = 0
     ps.settings.instance_object = obj
     ps.settings.normal_factor = 10
-    ps.settings.particle_size = 0.05
+    ps.settings.particle_size = 0.1
+    ps.settings.frame_end = 500
 
 
 

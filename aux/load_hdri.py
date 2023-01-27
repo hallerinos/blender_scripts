@@ -33,6 +33,7 @@ def load_hdri(filename):
     node_background2.location = 0,-200
     node_background2.inputs['Color'].default_value = (0,0,0,1)
     node_background2.inputs['Color'].default_value = (1,1,1,1)
+    node_background2.inputs['Color'].default_value = (90.0/255,115.0/255,135.0/255,1)
     
     # Add MixShader node
     node_mixshader = tree_nodes.new(type='ShaderNodeMixShader')
