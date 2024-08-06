@@ -4,6 +4,7 @@ import os
 
 # this line might be adapted to actual installation folder
 python_exe = sys.executable
+print(f"executable is {python_exe}")
 
 # install pandas
 try:
