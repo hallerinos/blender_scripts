@@ -36,7 +36,7 @@ def hsv_to_rgb(n, in_v, in_h):
     
     return rgb
 
-def create_arrow(location, direction, length=0.1, width=0.02):
+def create_arrow(location, direction, length=0.1, width=0.02, segments=64):
     bm = bmesh.new()
     
     # --- 1. Create the Shaft (Cylinder) ---
@@ -44,7 +44,7 @@ def create_arrow(location, direction, length=0.1, width=0.02):
     bmesh.ops.create_cone(
         bm,
         cap_ends=True,
-        segments=8,
+        segments=segments,
         radius1=width * 0.5, # Thinner than the head
         radius2=width * 0.5,
         depth=shaft_height
@@ -59,7 +59,7 @@ def create_arrow(location, direction, length=0.1, width=0.02):
     bmesh.ops.create_cone(
         bm,
         cap_ends=True,
-        segments=8,
+        segments=segments,
         radius1=width,
         radius2=0,
         depth=head_height
@@ -205,7 +205,7 @@ def create_even_vector_field(radius=1.0, num_points=250, arc=0.75):
         
         # Create and color
         arrow_obj = create_arrow(location, direction)
-        rgb = hsv_to_rgb(direction, 0, 1)
+        rgb = hsv_to_rgb(direction, 1, 0)
         set_arrow_materials(rgb, arrow_obj)
 
 def create_even_vector_field2(radius=1.0, num_points=250, arc=0.75):
@@ -299,8 +299,8 @@ def setup_smoke_material(obj):
     
     # Settings for thick grey smoke
     node_vol.inputs['Color'].default_value = (0.2, 0.2, 0.2, 1.0) # Grey
-    node_vol.inputs['Density'].default_value = 60.0 # Visible thickness
-    node_vol.inputs['Anisotropy'].default_value = 0.1
+    node_vol.inputs['Density'].default_value = 100.0 # Visible thickness
+    node_vol.inputs['Anisotropy'].default_value = 0.0001
     
     # CRITICAL: Link to Volume (Index 1)
     links.new(node_vol.outputs[0], node_out.inputs[1])
@@ -343,7 +343,7 @@ def setup_camera(target_obj, location=(5, -5, 5)):
     # Blender's default camera looks down -Z, with Y as Up
     constraint.track_axis = 'TRACK_NEGATIVE_Z'
     constraint.up_axis = 'UP_Y'
-    cam_obj.data.lens = 20
+    cam_obj.data.lens = 60
     
     return cam_obj
 
@@ -361,20 +361,21 @@ def main():
     # create_even_vector_field(radius=1.0, num_points=200)
     # 2. Layered Vector Field (Uniformly Distributed)
     # Total points are high, but the 'arc' check will remove 25% of them
-    for r in [1.05, 0.9, 0.7, 0.5, 0.3]:
+    for r in [1.1, 0.9, 0.7, 0.5, 0.3, 0.1]:
         # Scale the number of points by radius squared for consistent density
-        pts = int(15 * (r**2)) + 3
+        pts = int(0 * (r**2)) + 11
         # create_even_vector_field2(radius=r, num_points=max(pts, 20), arc=0.75)
-        create_vector_field_on_sphere(radius=r, num_points_1=pts, num_points_2=pts, length=r*0.1, width=r*0.02)
+        create_vector_field_on_sphere(radius=r, num_points_1=pts, num_points_2=pts, length=r*0.15, width=r*0.03)
     
+    bpy.ops.object.empty_add(type='PLAIN_AXES', location=(0, 0, 0.1))
+    origin_empty = bpy.context.active_object
     # Set up camera and lighting
-    setup_camera(target_obj=sphere, location=(1, 1, 2))
-    # bpy.ops.object.light_add(type='SUN', location=(5, 5, 5))
+    setup_camera(target_obj=origin_empty, location=(3, 3, 2))
     
     # Set render settings
     bpy.context.scene.render.engine = 'CYCLES'
-    bpy.context.scene.cycles.samples = 300  # Increase samples for better quality
-    bpy.context.scene.render.resolution_x = 1920  # Set resolution
+    bpy.context.scene.cycles.samples = 100  # Increase samples for better quality
+    bpy.context.scene.render.resolution_x = 1080  # Set resolution
     bpy.context.scene.render.resolution_y = 1080
 
     # bpy.context.scene.cycles.max_bounces = 12
